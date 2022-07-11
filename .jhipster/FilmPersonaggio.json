@@ -1,0 +1,40 @@
+{
+  "applications": "*",
+  "changelogDate": "20220711105520",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "film_personaggio",
+  "fields": [
+    {
+      "fieldName": "costo",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "isActive",
+      "fieldType": "Boolean"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "FilmPersonaggio",
+  "pagination": "infinite-scroll",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "titolo",
+      "otherEntityName": "film",
+      "otherEntityRelationshipName": "filmPersonaggio",
+      "relationshipName": "film",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "nome",
+      "otherEntityName": "personaggio",
+      "otherEntityRelationshipName": "filmPersonaggio",
+      "relationshipName": "personaggio",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "no"
+}

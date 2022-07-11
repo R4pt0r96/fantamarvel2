@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+    <!--
+        Added the constraints for entity Squadra.
+    -->
+    <changeSet id="20220711105524-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="film_id"
+                                 baseTableName="squadra"
+                                 constraintName="fk_squadra__film_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="film"/>
+
+        <addForeignKeyConstraint baseColumnNames="lega_id"
+                                 baseTableName="squadra"
+                                 constraintName="fk_squadra__lega_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="lega"/>
+
+        <addForeignKeyConstraint baseColumnNames="user_extended_id"
+                                 baseTableName="squadra"
+                                 constraintName="fk_squadra__user_extended_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="user_extended"/>
+
+        <addForeignKeyConstraint baseColumnNames="squadra_id"
+                                 baseTableName="rel_squadra__personaggio"
+                                 constraintName="fk_rel_squadra__personaggio__squadra_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="squadra"/>
+
+        <addForeignKeyConstraint baseColumnNames="personaggio_id"
+                                 baseTableName="rel_squadra__personaggio"
+                                 constraintName="fk_rel_squadra__personaggio__personaggio_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="personaggio"/>
+    </changeSet>
+</databaseChangeLog>

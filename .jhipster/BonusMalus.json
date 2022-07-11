@@ -1,0 +1,41 @@
+{
+  "applications": "*",
+  "changelogDate": "20220711105518",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "bonus_malus",
+  "fields": [
+    {
+      "fieldName": "descrizione",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength", "required"],
+      "fieldValidateRulesMaxlength": "1024"
+    },
+    {
+      "fieldName": "punti",
+      "fieldType": "Integer"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "BonusMalus",
+  "pagination": "infinite-scroll",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "titolo",
+      "otherEntityName": "film",
+      "otherEntityRelationshipName": "bonusMalus",
+      "relationshipName": "film",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "personaggio",
+      "otherEntityRelationshipName": "bonusmalus",
+      "ownerSide": false,
+      "relationshipName": "personaggio",
+      "relationshipType": "many-to-many"
+    }
+  ],
+  "service": "no"
+}

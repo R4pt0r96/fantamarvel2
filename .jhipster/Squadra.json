@@ -1,0 +1,68 @@
+{
+  "applications": "*",
+  "changelogDate": "20220711105524",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "squadra",
+  "fields": [
+    {
+      "fieldName": "gettoni",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "isInLega",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "isSalvata",
+      "fieldType": "Boolean",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "nome",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "punteggio",
+      "fieldType": "Integer"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Squadra",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "titolo",
+      "otherEntityName": "film",
+      "otherEntityRelationshipName": "squadra",
+      "relationshipName": "film",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "nome",
+      "otherEntityName": "lega",
+      "otherEntityRelationshipName": "squadra",
+      "relationshipName": "lega",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "username",
+      "otherEntityName": "userExtended",
+      "otherEntityRelationshipName": "squadra",
+      "relationshipName": "userExtended",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "nome",
+      "otherEntityName": "personaggio",
+      "otherEntityRelationshipName": "team",
+      "ownerSide": true,
+      "relationshipName": "personaggio",
+      "relationshipType": "many-to-many"
+    }
+  ],
+  "service": "no"
+}

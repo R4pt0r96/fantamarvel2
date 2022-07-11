@@ -1,0 +1,52 @@
+{
+  "applications": "*",
+  "changelogDate": "20220711105523",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "user_extended",
+  "fields": [
+    {
+      "fieldName": "username",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "provincia",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "note1",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "note2",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "note3",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "UserExtended",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "login",
+      "otherEntityName": "user",
+      "otherEntityRelationshipName": "userExtended",
+      "ownerSide": true,
+      "relationshipName": "user",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "film",
+      "otherEntityRelationshipName": "userExtended",
+      "ownerSide": false,
+      "relationshipName": "film",
+      "relationshipType": "many-to-many"
+    }
+  ],
+  "service": "no"
+}

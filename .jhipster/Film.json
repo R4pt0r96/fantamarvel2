@@ -1,0 +1,53 @@
+{
+  "applications": "*",
+  "changelogDate": "20220711105519",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "film",
+  "fields": [
+    {
+      "fieldName": "titolo",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "dataUscita",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "dataFineIscrizione",
+      "fieldType": "ZonedDateTime"
+    },
+    {
+      "fieldName": "isActive",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "urlImg",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "1024"
+    },
+    {
+      "fieldName": "descrizione",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "text"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Film",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "username",
+      "otherEntityName": "userExtended",
+      "otherEntityRelationshipName": "film",
+      "ownerSide": true,
+      "relationshipName": "userExtended",
+      "relationshipType": "many-to-many"
+    }
+  ],
+  "service": "no"
+}

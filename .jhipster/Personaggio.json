@@ -1,0 +1,57 @@
+{
+  "applications": "*",
+  "changelogDate": "20220711105522",
+  "dto": "no",
+  "embedded": false,
+  "entityTableName": "personaggio",
+  "fields": [
+    {
+      "fieldName": "nome",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "note",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "1024"
+    },
+    {
+      "fieldName": "isActive",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "urlImg",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "1024"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": false,
+  "name": "Personaggio",
+  "pagination": "infinite-scroll",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "descrizione",
+      "otherEntityName": "bonusMalus",
+      "otherEntityRelationshipName": "personaggio",
+      "ownerSide": true,
+      "relationshipName": "bonusmalus",
+      "relationshipType": "many-to-many"
+    },
+    {
+      "otherEntityName": "squadra",
+      "otherEntityRelationshipName": "personaggio",
+      "ownerSide": false,
+      "relationshipName": "team",
+      "relationshipType": "many-to-many"
+    }
+  ],
+  "service": "no"
+}

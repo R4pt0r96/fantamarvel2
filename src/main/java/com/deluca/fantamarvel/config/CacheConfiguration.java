@@ -48,6 +48,19 @@ public class CacheConfiguration {
             createCache(cm, com.deluca.fantamarvel.domain.User.class.getName());
             createCache(cm, com.deluca.fantamarvel.domain.Authority.class.getName());
             createCache(cm, com.deluca.fantamarvel.domain.User.class.getName() + ".authorities");
+            createCache(cm, com.deluca.fantamarvel.domain.BonusMalus.class.getName());
+            createCache(cm, com.deluca.fantamarvel.domain.BonusMalus.class.getName() + ".personaggios");
+            createCache(cm, com.deluca.fantamarvel.domain.Film.class.getName());
+            createCache(cm, com.deluca.fantamarvel.domain.Film.class.getName() + ".userExtendeds");
+            createCache(cm, com.deluca.fantamarvel.domain.FilmPersonaggio.class.getName());
+            createCache(cm, com.deluca.fantamarvel.domain.Lega.class.getName());
+            createCache(cm, com.deluca.fantamarvel.domain.Personaggio.class.getName());
+            createCache(cm, com.deluca.fantamarvel.domain.Personaggio.class.getName() + ".bonusmaluses");
+            createCache(cm, com.deluca.fantamarvel.domain.Personaggio.class.getName() + ".teams");
+            createCache(cm, com.deluca.fantamarvel.domain.UserExtended.class.getName());
+            createCache(cm, com.deluca.fantamarvel.domain.UserExtended.class.getName() + ".films");
+            createCache(cm, com.deluca.fantamarvel.domain.Squadra.class.getName());
+            createCache(cm, com.deluca.fantamarvel.domain.Squadra.class.getName() + ".personaggios");
             // jhipster-needle-ehcache-add-entry
         };
     }

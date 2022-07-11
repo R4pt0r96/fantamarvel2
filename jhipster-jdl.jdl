@@ -1,0 +1,78 @@
+entity BonusMalus {
+	descrizione String maxlength(1024) required,
+    punti Integer
+}
+
+entity Film {
+	titolo String required,
+    dataUscita ZonedDateTime,
+    dataFineIscrizione ZonedDateTime,
+    isActive Boolean,
+    urlImg String maxlength(1024),
+    descrizione TextBlob
+}
+
+
+entity FilmPersonaggio {
+	costo Integer required,
+	isActive Boolean
+}
+
+entity Lega {
+	codice String required,
+    descrizione TextBlob,
+    isPrivate Boolean,
+    nome String required
+}
+
+
+entity Personaggio {
+	nome String required,
+	description String,
+    note String maxlength(1024),
+    isActive Boolean,
+    urlImg String maxlength(1024)
+}
+
+
+entity UserExtended {
+	username String,
+	provincia String,
+    note1 String,
+    note2 String,
+    note3 String
+}
+
+entity Squadra {
+	gettoni Integer required,
+	isInLega Boolean,
+	isSalvata Boolean required,
+    nome String,
+    punteggio Integer
+}
+
+relationship ManyToMany {
+	Personaggio{bonusmalus(descrizione)} to BonusMalus{personaggio},
+    Squadra{personaggio(nome)} to Personaggio{team},
+    Film{userExtended(username)} to UserExtended{film}
+}
+
+
+relationship ManyToOne {
+	BonusMalus{film(titolo)} to Film,
+    FilmPersonaggio{film(titolo)} to Film,
+    FilmPersonaggio{personaggio(nome)} to Personaggio,
+    Squadra{film(titolo)} to Film,
+    Squadra{lega(nome)} to Lega,
+    Squadra{userExtended(username)} to UserExtended
+}
+
+relationship OneToOne {
+	UserExtended{user(login)} to User
+}
+
+
+paginate Personaggio, BonusMalus, FilmPersonaggio with infinite-scroll
+paginate Film, Squadra, Lega, UserExtended with pagination
+
+

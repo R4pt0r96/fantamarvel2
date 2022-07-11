@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+    <!--
+        Added the constraints for entity Personaggio.
+    -->
+    <changeSet id="20220711105522-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="personaggio_id"
+                                 baseTableName="rel_personaggio__bonusmalus"
+                                 constraintName="fk_rel_personaggio__bonusmalus__personaggio_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="personaggio"/>
+
+        <addForeignKeyConstraint baseColumnNames="bonusmalus_id"
+                                 baseTableName="rel_personaggio__bonusmalus"
+                                 constraintName="fk_rel_personaggio__bonusmalus__bonusmalus_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="bonus_malus"/>
+    </changeSet>
+</databaseChangeLog>
