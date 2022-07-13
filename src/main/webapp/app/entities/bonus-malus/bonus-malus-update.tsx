@@ -94,8 +94,28 @@ export const BonusMalusUpdate = (props: RouteComponentProps<{ id: string }>) => 
                   maxLength: { value: 1024, message: 'This field cannot be longer than 1024 characters.' },
                 }}
               />
-              <ValidatedField label="Punti" id="bonus-malus-punti" name="punti" data-cy="punti" type="text" />
-              <ValidatedField id="bonus-malus-film" name="film" data-cy="film" label="Film" type="select">
+              <ValidatedField
+                label="Punti"
+                required
+                id="bonus-malus-punti"
+                name="punti"
+                data-cy="punti"
+                type="number"
+                validate={{
+                  required: { value: true, message: 'This field is required.' },
+                }}
+              />
+              <ValidatedField
+                id="bonus-malus-film"
+                required
+                name="film"
+                data-cy="film"
+                label="Film"
+                type="select"
+                validate={{
+                  required: { value: true, message: 'This field is required.' },
+                }}
+              >
                 <option value="" key="0" />
                 {films
                   ? films.map(otherEntity => (

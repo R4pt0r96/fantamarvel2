@@ -29,9 +29,11 @@ public class BonusMalus implements Serializable {
     @Column(name = "descrizione", length = 1024, nullable = false)
     private String descrizione;
 
-    @Column(name = "punti")
+    @NotNull
+    @Column(name = "punti", nullable = false)
     private Integer punti;
 
+    @NotNull
     @ManyToOne
     @JsonIgnoreProperties(value = { "userExtendeds" }, allowSetters = true)
     private Film film;
