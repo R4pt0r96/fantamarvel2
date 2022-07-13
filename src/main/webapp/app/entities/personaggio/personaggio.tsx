@@ -163,6 +163,15 @@ export const Personaggio = (props: RouteComponentProps<{ url: string }>) => {
                         </Button>
                         <Button
                           tag={Link}
+                          to={`/personaggio/${personaggio.id}/edit-bonusmalus`}
+                          color="warning"
+                          size="sm"
+                          data-cy="entityEditBonusMalusButton"
+                        >
+                          <FontAwesomeIcon icon="pencil-alt" /> <span className="d-none d-md-inline">BonusMalus</span>
+                        </Button>
+                        <Button
+                          tag={Link}
                           to={`/personaggio/${personaggio.id}/delete`}
                           color="danger"
                           size="sm"

@@ -15,7 +15,7 @@ import { getEntities as getSquadras } from 'app/entities/squadra/squadra.reducer
 import { IPersonaggio } from 'app/shared/model/personaggio.model';
 import { getEntity, updateEntity, createEntity, reset } from './personaggio.reducer';
 
-export const PersonaggioUpdate = (props: RouteComponentProps<{ id: string }>) => {
+export const PersonaggioBonusMalus = (props: RouteComponentProps<{ id: string }>) => {
   const dispatch = useAppDispatch();
 
   const [isNew] = useState(!props.match.params || !props.match.params.id);
@@ -49,6 +49,7 @@ export const PersonaggioUpdate = (props: RouteComponentProps<{ id: string }>) =>
     const entity = {
       ...personaggioEntity,
       ...values,
+      bonusmaluses: mapIdList(values.bonusmaluses),
     };
 
     if (isNew) {
@@ -63,6 +64,7 @@ export const PersonaggioUpdate = (props: RouteComponentProps<{ id: string }>) =>
       ? {}
       : {
           ...personaggioEntity,
+          bonusmaluses: personaggioEntity?.bonusmaluses?.map(e => e.id.toString()),
         };
 
   return (
@@ -82,6 +84,7 @@ export const PersonaggioUpdate = (props: RouteComponentProps<{ id: string }>) =>
             <ValidatedForm defaultValues={defaultValues()} onSubmit={saveEntity}>
               {!isNew ? <ValidatedField name="id" required readOnly id="personaggio-id" label="ID" validate={{ required: true }} /> : null}
               <ValidatedField
+                readOnly
                 label="Nome"
                 id="personaggio-nome"
                 name="nome"
@@ -91,8 +94,18 @@ export const PersonaggioUpdate = (props: RouteComponentProps<{ id: string }>) =>
                   required: { value: true, message: 'This field is required.' },
                 }}
               />
-              <ValidatedField label="Description" id="personaggio-description" name="description" data-cy="description" type="text" />
               <ValidatedField
+                readOnly
+                hidden
+                label="Description"
+                id="personaggio-description"
+                name="description"
+                data-cy="description"
+                type="text"
+              />
+              <ValidatedField
+                readOnly
+                hidden
                 label="Note"
                 id="personaggio-note"
                 name="note"
@@ -102,8 +115,19 @@ export const PersonaggioUpdate = (props: RouteComponentProps<{ id: string }>) =>
                   maxLength: { value: 1024, message: 'This field cannot be longer than 1024 characters.' },
                 }}
               />
-              <ValidatedField label="Is Active" id="personaggio-isActive" name="isActive" data-cy="isActive" check type="checkbox" />
               <ValidatedField
+                readOnly
+                hidden
+                label="Is Active"
+                id="personaggio-isActive"
+                name="isActive"
+                data-cy="isActive"
+                check
+                type="checkbox"
+              />
+              <ValidatedField
+                readOnly
+                hidden
                 label="Url Img"
                 id="personaggio-urlImg"
                 name="urlImg"
@@ -113,6 +137,23 @@ export const PersonaggioUpdate = (props: RouteComponentProps<{ id: string }>) =>
                   maxLength: { value: 1024, message: 'This field cannot be longer than 1024 characters.' },
                 }}
               />
+              <ValidatedField
+                label="Bonusmalus"
+                id="personaggio-bonusmalus"
+                data-cy="bonusmalus"
+                type="select"
+                multiple
+                name="bonusmaluses"
+              >
+                <option value="" key="0" />
+                {bonusMaluses
+                  ? bonusMaluses.map(otherEntity => (
+                      <option value={otherEntity.id} key={otherEntity.id}>
+                        {otherEntity.descrizione}
+                      </option>
+                    ))
+                  : null}
+              </ValidatedField>
               <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/personaggio" replace color="info">
                 <FontAwesomeIcon icon="arrow-left" />
                 &nbsp;
@@ -131,4 +172,4 @@ export const PersonaggioUpdate = (props: RouteComponentProps<{ id: string }>) =>
   );
 };
 
-export default PersonaggioUpdate;
+export default PersonaggioBonusMalus;
