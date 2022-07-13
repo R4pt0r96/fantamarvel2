@@ -1,8 +1,8 @@
 {
-  "name": "fantamarvel-2",
-  "version": "0.0.1-SNAPSHOT",
+  "name": "fantamarvel",
+  "version": "0.0.2-SNAPSHOT",
   "private": true,
-  "description": "Description for fantamarvel2",
+  "description": "Description for fantamarvel",
   "license": "UNLICENSED",
   "scripts": {
     "app:start": "./mvnw",

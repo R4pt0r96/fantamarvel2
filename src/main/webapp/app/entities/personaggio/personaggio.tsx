@@ -97,7 +97,7 @@ export const Personaggio = (props: RouteComponentProps<{ url: string }>) => {
   return (
     <div>
       <h2 id="personaggio-heading" data-cy="PersonaggioHeading">
-        Personaggios
+        Personaggi
         <div className="d-flex justify-content-end">
           <Button className="me-2" color="info" onClick={handleSyncList} disabled={loading}>
             <FontAwesomeIcon icon="sync" spin={loading} /> Refresh List

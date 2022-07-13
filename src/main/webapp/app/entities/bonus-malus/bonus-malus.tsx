@@ -97,7 +97,7 @@ export const BonusMalus = (props: RouteComponentProps<{ url: string }>) => {
   return (
     <div>
       <h2 id="bonus-malus-heading" data-cy="BonusMalusHeading">
-        Bonus Maluses
+        Bonus Malus
         <div className="d-flex justify-content-end">
           <Button className="me-2" color="info" onClick={handleSyncList} disabled={loading}>
             <FontAwesomeIcon icon="sync" spin={loading} /> Refresh List
