@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { Button, Row, Col, FormText } from 'reactstrap';
+import { Button, Row, Col, FormText, FormGroup, Input, Label } from 'reactstrap';
 import { isNumber, ValidatedField, ValidatedForm } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -170,22 +170,23 @@ export const PersonaggioBonusMalus = (props: RouteComponentProps<{ id: string }>
                   : null}
               </ValidatedField>
               {filmSelectedId != 0 ? (
-                <ValidatedField
-                  label="Bonusmalus"
-                  id="personaggio-bonusmalus"
-                  data-cy="bonusmalus"
-                  type="select"
-                  multiple
-                  name="bonusmaluses"
-                >
-                  {bonusMalusFilterByFilm
-                    ? bonusMalusFilterByFilm.map(otherEntity => (
-                        <option value={otherEntity.id} key={otherEntity.id}>
-                          {otherEntity.descrizione}
-                        </option>
-                      ))
-                    : null}
-                </ValidatedField>
+                <FormGroup>
+                  <Label>Bonus e Malus</Label>
+                  <div>
+                    {bonusMalusFilterByFilm
+                      ? bonusMalusFilterByFilm.map(obj => {
+                          return (
+                            <Row key={obj.id}>
+                              <label htmlFor={'' + obj.id}>
+                                <Input type="checkbox" name="bonusmaluses" id={'' + obj.id} value={obj.id} />
+                                {' ' + obj.descrizione}
+                              </label>
+                            </Row>
+                          );
+                        })
+                      : null}
+                  </div>
+                </FormGroup>
               ) : null}
               <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/personaggio" replace color="info">
                 <FontAwesomeIcon icon="arrow-left" />
