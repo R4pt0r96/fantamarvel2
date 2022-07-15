@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Row, Col, FormText } from 'reactstrap';
 import { isNumber, ValidatedField, ValidatedForm } from 'react-jhipster';
@@ -14,12 +14,17 @@ import { ISquadra } from 'app/shared/model/squadra.model';
 import { getEntities as getSquadras } from 'app/entities/squadra/squadra.reducer';
 import { IPersonaggio } from 'app/shared/model/personaggio.model';
 import { getEntity, updateEntity, createEntity, reset } from './personaggio.reducer';
+import { getEntities as getFilms } from '../film/film.reducer';
 
 export const PersonaggioBonusMalus = (props: RouteComponentProps<{ id: string }>) => {
   const dispatch = useAppDispatch();
 
   const [isNew] = useState(!props.match.params || !props.match.params.id);
+  const [filmSelectedId, setFilmSelectedId] = useState(0);
 
+  const filmDropdown: React.MutableRefObject<any> = useRef();
+
+  const films = useAppSelector(state => state.film.entities);
   const bonusMaluses = useAppSelector(state => state.bonusMalus.entities);
   const squadras = useAppSelector(state => state.squadra.entities);
   const personaggioEntity = useAppSelector(state => state.personaggio.entity);
@@ -30,14 +35,22 @@ export const PersonaggioBonusMalus = (props: RouteComponentProps<{ id: string }>
     props.history.push('/personaggio');
   };
 
-  useEffect(() => {
-    if (!isNew) {
-      dispatch(getEntity(props.match.params.id));
-    }
+  const bonusMalusFilterByFilm: IBonusMalus[] = bonusMaluses.filter(obj => obj.film.id == filmSelectedId);
 
-    dispatch(getBonusMaluses({}));
+  const changeFilmHandler = () => {
+    setFilmSelectedId(filmDropdown.current.value);
+  };
+
+  useEffect(() => {
+    dispatch(getEntity(props.match.params.id));
+    dispatch(getFilms({}));
     dispatch(getSquadras({}));
+    dispatch(getBonusMaluses({}));
   }, []);
+
+  useEffect(() => {
+    dispatch(getBonusMaluses({}));
+  }, [filmSelectedId]);
 
   useEffect(() => {
     if (updateSuccess) {
@@ -46,6 +59,7 @@ export const PersonaggioBonusMalus = (props: RouteComponentProps<{ id: string }>
   }, [updateSuccess]);
 
   const saveEntity = values => {
+    delete values.film;
     const entity = {
       ...personaggioEntity,
       ...values,
@@ -138,22 +152,41 @@ export const PersonaggioBonusMalus = (props: RouteComponentProps<{ id: string }>
                 }}
               />
               <ValidatedField
-                label="Bonusmalus"
-                id="personaggio-bonusmalus"
-                data-cy="bonusmalus"
+                id="bonus-malus-film"
+                name="film"
+                data-cy="film"
+                label="Film"
                 type="select"
-                multiple
-                name="bonusmaluses"
+                onChange={changeFilmHandler}
+                innerRef={filmDropdown}
               >
-                <option value="" key="0" />
-                {bonusMaluses
-                  ? bonusMaluses.map(otherEntity => (
+                <option value="0" key="0" />
+                {films
+                  ? films.map(otherEntity => (
                       <option value={otherEntity.id} key={otherEntity.id}>
-                        {otherEntity.descrizione}
+                        {otherEntity.titolo}
                       </option>
                     ))
                   : null}
               </ValidatedField>
+              {filmSelectedId != 0 ? (
+                <ValidatedField
+                  label="Bonusmalus"
+                  id="personaggio-bonusmalus"
+                  data-cy="bonusmalus"
+                  type="select"
+                  multiple
+                  name="bonusmaluses"
+                >
+                  {bonusMalusFilterByFilm
+                    ? bonusMalusFilterByFilm.map(otherEntity => (
+                        <option value={otherEntity.id} key={otherEntity.id}>
+                          {otherEntity.descrizione}
+                        </option>
+                      ))
+                    : null}
+                </ValidatedField>
+              ) : null}
               <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/personaggio" replace color="info">
                 <FontAwesomeIcon icon="arrow-left" />
                 &nbsp;
