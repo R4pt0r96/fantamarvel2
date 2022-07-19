@@ -21,8 +21,10 @@ export const PersonaggioBonusMalus = (props: RouteComponentProps<{ id: string }>
 
   const [isNew] = useState(!props.match.params || !props.match.params.id);
   const [filmSelectedId, setFilmSelectedId] = useState(0);
+  const [bonusMalusChecked, setBonusMalusChecked] = useState([]);
 
   const filmDropdown: React.MutableRefObject<any> = useRef();
+  const isMounted = useRef(false);
 
   const films = useAppSelector(state => state.film.entities);
   const bonusMaluses = useAppSelector(state => state.bonusMalus.entities);
@@ -34,11 +36,46 @@ export const PersonaggioBonusMalus = (props: RouteComponentProps<{ id: string }>
   const handleClose = () => {
     props.history.push('/personaggio');
   };
+  const PersonaggioBonusMalusId = personaggioEntity?.bonusmaluses?.map(e => e.id);
 
-  const bonusMalusFilterByFilm: IBonusMalus[] = bonusMaluses.filter(obj => obj.film.id == filmSelectedId);
+  const bonusMalusCheck = () => {
+    let x = [];
+    for (let i = 0; i < bonusMaluses.length; i++) {
+      if (PersonaggioBonusMalusId.includes(bonusMaluses[i].id)) {
+        x.push({ bonusmalus: bonusMaluses[i], check: true });
+      } else {
+        x.push({ bonusmalus: bonusMaluses[i], check: false });
+      }
+    }
+    setBonusMalusChecked(x);
+  };
 
   const changeFilmHandler = () => {
     setFilmSelectedId(filmDropdown.current.value);
+  };
+
+  const checkBonusMalusHandler = e => {
+    if (e.target.checked) {
+      setBonusMalusChecked(
+        bonusMalusChecked.map(obj => {
+          if (obj.bonusmalus.id == e.target.value) {
+            return { bonusmalus: obj.bonusmalus, check: true };
+          } else {
+            return { bonusmalus: obj.bonusmalus, check: obj.check };
+          }
+        })
+      );
+    } else {
+      setBonusMalusChecked(
+        bonusMalusChecked.map(obj => {
+          if (obj.bonusmalus.id == e.target.value) {
+            return { bonusmalus: obj.bonusmalus, check: false };
+          } else {
+            return { bonusmalus: obj.bonusmalus, check: obj.check };
+          }
+        })
+      );
+    }
   };
 
   useEffect(() => {
@@ -49,8 +86,14 @@ export const PersonaggioBonusMalus = (props: RouteComponentProps<{ id: string }>
   }, []);
 
   useEffect(() => {
-    dispatch(getBonusMaluses({}));
+    if (isMounted.current) {
+      bonusMalusCheck();
+    } else {
+      isMounted.current = true;
+    }
   }, [filmSelectedId]);
+
+  useEffect(() => {}, [bonusMalusChecked]);
 
   useEffect(() => {
     if (updateSuccess) {
@@ -59,11 +102,17 @@ export const PersonaggioBonusMalus = (props: RouteComponentProps<{ id: string }>
   }, [updateSuccess]);
 
   const saveEntity = values => {
-    delete values.film;
+    let x = [];
+    bonusMalusChecked.forEach(obj => {
+      if (obj.check) {
+        x.push(obj.bonusmalus.id);
+      }
+    });
+    values.preventDefault();
+    console.log(bonusMalusChecked);
     const entity = {
       ...personaggioEntity,
-      ...values,
-      bonusmaluses: mapIdList(values.bonusmaluses),
+      bonusmaluses: mapIdList(x),
     };
 
     if (isNew) {
@@ -72,14 +121,6 @@ export const PersonaggioBonusMalus = (props: RouteComponentProps<{ id: string }>
       dispatch(updateEntity(entity));
     }
   };
-
-  const defaultValues = () =>
-    isNew
-      ? {}
-      : {
-          ...personaggioEntity,
-          bonusmaluses: personaggioEntity?.bonusmaluses?.map(e => e.id.toString()),
-        };
 
   return (
     <div>
@@ -95,62 +136,7 @@ export const PersonaggioBonusMalus = (props: RouteComponentProps<{ id: string }>
           {loading ? (
             <p>Loading...</p>
           ) : (
-            <ValidatedForm defaultValues={defaultValues()} onSubmit={saveEntity}>
-              {!isNew ? <ValidatedField name="id" required readOnly id="personaggio-id" label="ID" validate={{ required: true }} /> : null}
-              <ValidatedField
-                readOnly
-                label="Nome"
-                id="personaggio-nome"
-                name="nome"
-                data-cy="nome"
-                type="text"
-                validate={{
-                  required: { value: true, message: 'This field is required.' },
-                }}
-              />
-              <ValidatedField
-                readOnly
-                hidden
-                label="Description"
-                id="personaggio-description"
-                name="description"
-                data-cy="description"
-                type="text"
-              />
-              <ValidatedField
-                readOnly
-                hidden
-                label="Note"
-                id="personaggio-note"
-                name="note"
-                data-cy="note"
-                type="text"
-                validate={{
-                  maxLength: { value: 1024, message: 'This field cannot be longer than 1024 characters.' },
-                }}
-              />
-              <ValidatedField
-                readOnly
-                hidden
-                label="Is Active"
-                id="personaggio-isActive"
-                name="isActive"
-                data-cy="isActive"
-                check
-                type="checkbox"
-              />
-              <ValidatedField
-                readOnly
-                hidden
-                label="Url Img"
-                id="personaggio-urlImg"
-                name="urlImg"
-                data-cy="urlImg"
-                type="text"
-                validate={{
-                  maxLength: { value: 1024, message: 'This field cannot be longer than 1024 characters.' },
-                }}
-              />
+            <>
               <ValidatedField
                 id="bonus-malus-film"
                 name="film"
@@ -169,36 +155,51 @@ export const PersonaggioBonusMalus = (props: RouteComponentProps<{ id: string }>
                     ))
                   : null}
               </ValidatedField>
-              {filmSelectedId != 0 ? (
+              <form onSubmit={saveEntity}>
                 <FormGroup>
-                  <Label>Bonus e Malus</Label>
-                  <div>
-                    {bonusMalusFilterByFilm
-                      ? bonusMalusFilterByFilm.map(obj => {
-                          return (
-                            <Row key={obj.id}>
-                              <label htmlFor={'' + obj.id}>
-                                <Input type="checkbox" name="bonusmaluses" id={'' + obj.id} value={obj.id} />
-                                {' ' + obj.descrizione}
-                              </label>
-                            </Row>
-                          );
-                        })
-                      : null}
-                  </div>
+                  {filmSelectedId != 0 ? (
+                    <FormGroup check>
+                      <Label>Bonus e Malus</Label>
+                      <div>
+                        {bonusMalusChecked ? (
+                          bonusMalusChecked.map(obj => {
+                            if (obj.bonusmalus?.film?.id == filmSelectedId) {
+                              return (
+                                <Row key={obj.bonusmalus.id}>
+                                  <label htmlFor={'' + obj.bonusmalus.id}>
+                                    <Input
+                                      type="checkbox"
+                                      name="bonusmaluses"
+                                      id={'' + obj.bonusmalus.id}
+                                      value={'' + obj.bonusmalus.id}
+                                      onChange={checkBonusMalusHandler}
+                                      defaultChecked={obj.check}
+                                    />
+                                    {' ' + obj.bonusmalus.descrizione}
+                                  </label>
+                                </Row>
+                              );
+                            }
+                          })
+                        ) : (
+                          <p>err</p>
+                        )}
+                      </div>
+                    </FormGroup>
+                  ) : null}
+                  <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/personaggio" replace color="info">
+                    <FontAwesomeIcon icon="arrow-left" />
+                    &nbsp;
+                    <span className="d-none d-md-inline">Back</span>
+                  </Button>
+                  &nbsp;
+                  <Button color="primary" id="save-entity" data-cy="entityCreateSaveButton" type="submit" disabled={updating}>
+                    <FontAwesomeIcon icon="save" />
+                    &nbsp; Save
+                  </Button>
                 </FormGroup>
-              ) : null}
-              <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/personaggio" replace color="info">
-                <FontAwesomeIcon icon="arrow-left" />
-                &nbsp;
-                <span className="d-none d-md-inline">Back</span>
-              </Button>
-              &nbsp;
-              <Button color="primary" id="save-entity" data-cy="entityCreateSaveButton" type="submit" disabled={updating}>
-                <FontAwesomeIcon icon="save" />
-                &nbsp; Save
-              </Button>
-            </ValidatedForm>
+              </form>
+            </>
           )}
         </Col>
       </Row>
