@@ -1,0 +1,11 @@
+.regolamento_container {
+  text-align: center;
+  /* background-color: #1daeed4f; */
+  background: hsla(152, 100%, 50%, 0.5);
+
+  background: linear-gradient(90deg, rgba(0, 255, 136, 0.5) 0%, hsla(186, 100%, 69%, 0.5) 100%);
+
+  background: -moz-linear-gradient(90deg, rgba(0, 255, 136, 0.5) 0%, hsla(186, 100%, 69%, 0.5) 100%);
+
+  background: -webkit-linear-gradient(90deg, hsla(152, 100%, 50%, 0.5) 0%, hsla(186, 100%, 69%, 0.5) 100%);
+}
