@@ -3,10 +3,11 @@ import './home.scss';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { Row, Col, Alert } from 'reactstrap';
+import { Row, Col, Alert, Card } from 'reactstrap';
 
 import { useAppSelector } from 'app/config/store';
 import Regolamento from 'app/myComponent/regolamento';
+import FilmCard from 'app/myComponent/filmCard';
 
 export const Home = () => {
   const account = useAppSelector(state => state.authentication.account);
@@ -33,6 +34,11 @@ export const Home = () => {
               </Alert>
             </div>
           )}
+        </Col>
+      </Row>
+      <Row className="verticalShift">
+        <Col>
+          <FilmCard />
         </Col>
       </Row>
       <Regolamento />

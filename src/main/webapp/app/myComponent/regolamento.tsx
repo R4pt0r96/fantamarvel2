@@ -5,7 +5,7 @@ import './regolamento.css';
 const Regolamento = () => {
   return (
     <div className="regolamento_container">
-      <p>REGOLAMENTO </p>
+      <h2>REGOLAMENTO </h2>
       <p>Registrati e crea la tua squadra. </p>
       <p>
         Avrai a disposizione <b>100 gettoni</b> e il tuo team dovrà avere <b>3 personaggi </b>marvel tra quelli a disposizione.

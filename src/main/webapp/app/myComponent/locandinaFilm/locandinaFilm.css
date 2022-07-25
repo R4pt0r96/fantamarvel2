@@ -1,0 +1,30 @@
+.locandinaFilm {
+  height: 500px;
+  width: auto;
+  background-size: contain;
+  background-repeat: no-repeat;
+
+  box-shadow: 0 0 0 0 rgb(245, 4, 4);
+  animation: pulse 2s infinite;
+}
+
+@media (max-width: 768px) {
+  .locandinaFilm {
+    width: auto;
+    text-align: center;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(243, 0, 0, 0.7);
+  }
+
+  70% {
+    box-shadow: 0 0 0 10px rgba(255, 0, 0, 0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 0, 0, 0);
+  }
+}

@@ -14,3 +14,13 @@ Main page styles
 .welcome_center {
   text-align: center;
 }
+
+.verticalShift {
+  flex-direction: column;
+}
+
+@media (min-width: 768px) {
+  .verticalShift {
+    flex-direction: row;
+  }
+}
