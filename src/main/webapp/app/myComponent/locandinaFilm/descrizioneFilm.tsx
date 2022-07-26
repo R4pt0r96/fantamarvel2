@@ -1,4 +1,5 @@
 import React from 'react';
+import CountdownTimer from '../countdown/countdownTimer';
 import ConvertitoreDate from '../utility/ConvertitoreDate';
 
 import './descrizioneFilm.scss';
@@ -13,6 +14,7 @@ const DescrizioneFilm = props => {
       </h1>
       <p id="dataUscita">Al cinema dal: {dataUscita}</p>
       <p id="descrizioneFilm">{props.descrizione}</p>
+      <CountdownTimer targetDate={props.data} />
     </div>
   );
 };
