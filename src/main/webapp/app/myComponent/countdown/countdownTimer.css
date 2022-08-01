@@ -1,19 +1,19 @@
 .expired-notice {
   text-align: center;
-  padding: 2rem;
-  border: 1px solid #ebebeb;
+  padding: 0.5rem;
+  border: none;
   border-radius: 0.25rem;
   margin: 0.5rem;
 }
 
 .expired-notice > span {
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: bold;
   color: red;
 }
 
 .expired-notice > p {
-  font-size: 1.5rem;
+  font-size: 1rem;
 }
 
 .show-counter {

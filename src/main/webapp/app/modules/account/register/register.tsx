@@ -100,19 +100,9 @@ export const RegisterPage = () => {
               data-cy="secondPassword"
             />
             <Button id="register-submit" color="primary" type="submit" data-cy="submit">
-              Register
+              Registati
             </Button>
           </ValidatedForm>
-          <p>&nbsp;</p>
-          <Alert color="warning">
-            <span>If you want to</span>
-            <a className="alert-link"> sign in</a>
-            <span>
-              , you can try the default accounts:
-              <br />- Administrator (login=&quot;admin&quot; and password=&quot;admin&quot;)
-              <br />- User (login=&quot;user&quot; and password=&quot;user&quot;).
-            </span>
-          </Alert>
         </Col>
       </Row>
     </div>

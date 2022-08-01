@@ -74,19 +74,19 @@ const LoginModal = (props: ILoginModalProps) => {
           <div className="mt-1">&nbsp;</div>
           <Alert color="warning">
             <Link to="/account/reset/request" data-cy="forgetYourPasswordSelector">
-              Did you forget your password?
+              Hai dimenticato la password?
             </Link>
           </Alert>
           <Alert color="warning">
-            <span>You don&apos;t have an account yet?</span> <Link to="/account/register">Register a new account</Link>
+            <span>Non hai un account?</span> <Link to="/account/register">Registrati qui.</Link>
           </Alert>
         </ModalBody>
         <ModalFooter>
           <Button color="secondary" onClick={handleClose} tabIndex={1}>
-            Cancel
+            Annulla
           </Button>{' '}
           <Button color="primary" type="submit" data-cy="submit">
-            Sign in
+            Entra
           </Button>
         </ModalFooter>
       </Form>

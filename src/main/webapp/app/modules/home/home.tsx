@@ -1,16 +1,15 @@
 import './home.scss';
 
 import React from 'react';
-import { Link } from 'react-router-dom';
 
 import { Row, Col, Alert, Card } from 'reactstrap';
 
-import { useAppSelector } from 'app/config/store';
+// import { useAppSelector } from 'app/config/store';
 import Regolamento from 'app/myComponent/regolamento';
 import FilmCard from 'app/myComponent/filmCard';
 
 export const Home = () => {
-  const account = useAppSelector(state => state.authentication.account);
+  // const account = useAppSelector(state => state.authentication.account);
 
   return (
     <>
@@ -20,7 +19,7 @@ export const Home = () => {
         {/* </Col> */}
         <Col md="12">
           <h2>Benvenuto nel Fanta-Marvel</h2>
-          {account?.login ? (
+          {/* {account?.login ? (
             <div>
               <Alert color="success">Hai effettuato il login {account.login}.</Alert>
             </div>
@@ -33,7 +32,7 @@ export const Home = () => {
                 </Link>
               </Alert>
             </div>
-          )}
+          )} */}
         </Col>
       </Row>
       <Row className="verticalShift">
