@@ -1,15 +1,37 @@
 import './home.scss';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Row, Col, Alert, Card } from 'reactstrap';
-
-// import { useAppSelector } from 'app/config/store';
+import { useAppSelector, useAppDispatch } from 'app/config/store';
 import Regolamento from 'app/myComponent/regolamento';
 import FilmCard from 'app/myComponent/filmCard';
+import BonusMalusComponent from 'app/myComponent/bonusMalus/BonusMalus';
+import { getEntities as getEntitiesFilm } from 'app/entities/film/film.reducer';
+import { getEntities as getEntitiesBonusMalus } from 'app/entities/bonus-malus/bonus-malus.reducer';
 
-export const Home = () => {
+export const Home = props => {
   // const account = useAppSelector(state => state.authentication.account);
+  const dispatch = useAppDispatch();
+
+  const filmList = useAppSelector(state => state.film.entities);
+  const loadingFilmList = useAppSelector(state => state.film.loading);
+  const bonusMalusList = useAppSelector(state => state.bonusMalus.entities);
+
+  const filmActive = filmList.filter(film => {
+    return film.isActive ? film : null;
+  });
+
+  const [showBonusMalus, setShowBonusMalus] = useState(false);
+
+  const changeSetBonusMalusHandler = () => {
+    setShowBonusMalus(!showBonusMalus);
+  };
+
+  useEffect(() => {
+    dispatch(getEntitiesFilm({}));
+    dispatch(getEntitiesBonusMalus({}));
+  }, []);
 
   return (
     <>
@@ -36,10 +58,9 @@ export const Home = () => {
         </Col>
       </Row>
       <Row className="verticalShift">
-        <Col>
-          <FilmCard />
-        </Col>
+        <Col>{loadingFilmList ? <p>Loading...</p> : <FilmCard onBonusMalusClick={changeSetBonusMalusHandler} film={filmActive[0]} />}</Col>
       </Row>
+      {showBonusMalus ? <BonusMalusComponent idFilm={filmActive[0].id} bonusMalusList={bonusMalusList} /> : null}
       <Regolamento />
     </>
   );

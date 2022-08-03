@@ -1,0 +1,33 @@
+.item_container {
+  border-radius: 25px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border: solid 1px;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+
+.malus_item_container {
+  background: linear-gradient(270deg, rgba(255, 0, 0, 0.7) 0%, hsla(0, 100%, 85%, 0.7) 100%);
+  border-color: red;
+
+  h4 {
+    color: red;
+  }
+}
+.bonus_item_container {
+  background: linear-gradient(270deg, rgb(117, 216, 3, 0.7) 0%, hsla(67, 89%, 86%, 0.7) 100%);
+  border-color: greenyellow;
+  h4 {
+    color: rgb(0, 229, 0);
+  }
+}
+
+.bonusmalus_punti {
+  text-align: center;
+  font-weight: bold;
+}
+
+.bonusmalus_descrizione {
+}

@@ -6,37 +6,24 @@ import LocandinaFilm from './locandinaFilm/locandinaFilm';
 
 import './filmCard.css';
 import DescrizioneFilm from './locandinaFilm/descrizioneFilm';
-import { isNull, isUndefined } from 'lodash';
+import { isUndefined } from 'lodash';
 
-const FilmCard = () => {
-  const dispatch = useAppDispatch();
-
-  const filmList = useAppSelector(state => state.film.entities);
-  const loadingFilmList = useAppSelector(state => state.film.loading);
-  const filmActive = filmList.filter(film => {
-    return film.isActive ? film : null;
-  });
-
-  const isFilmTrovato = isUndefined(filmActive[0]?.dataUscita);
-
-  useEffect(() => {
-    dispatch(getEntities({}));
-  }, []);
+const FilmCard = props => {
+  const isFilmTrovato = isUndefined(props.film?.dataUscita);
 
   if (!isFilmTrovato) {
     return (
       <Card style={{ marginBottom: '1rem' }} className="filmCard">
-        <LocandinaFilm immagine={filmActive[0]?.urlImg} />
-        {loadingFilmList ? (
-          <p>Loading...</p>
-        ) : (
-          <DescrizioneFilm
-            titolo={filmActive[0]?.titolo}
-            data={filmActive[0]?.dataUscita}
-            descrizione={filmActive[0]?.descrizione}
-            dataFine={filmActive[0]?.dataFineIscrizione}
-          />
-        )}
+        <LocandinaFilm immagine={props.film.urlImg} />
+
+        <DescrizioneFilm
+          film={props.film}
+          // titolo={filmActive[0]?.titolo}
+          // data={filmActive[0]?.dataUscita}
+          // descrizione={filmActive[0]?.descrizione}
+          // dataFine={filmActive[0]?.dataFineIscrizione}
+          bonusMalusClick={props.onBonusMalusClick}
+        />
       </Card>
     );
   } else {
