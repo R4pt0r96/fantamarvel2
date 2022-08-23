@@ -19,7 +19,7 @@ const DescrizioneFilm = props => {
       <Button outline color="primary" onClick={props.bonusMalusClick}>
         <b>Bonus Malus</b>
       </Button>
-      <CountdownTimer targetDate={props.film.dataFineIscrizione} />
+      <CountdownTimer targetDate={props.film.dataFineIscrizione} film={props.film} />
     </div>
   );
 };

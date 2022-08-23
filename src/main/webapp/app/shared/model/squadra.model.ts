@@ -19,4 +19,6 @@ export interface ISquadra {
 export const defaultValue: Readonly<ISquadra> = {
   isInLega: false,
   isSalvata: false,
+  gettoni: 100,
+  punteggio: 0,
 };

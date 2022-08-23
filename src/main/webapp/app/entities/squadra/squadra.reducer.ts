@@ -33,6 +33,15 @@ export const getEntity = createAsyncThunk(
   { serializeError: serializeAxiosError }
 );
 
+export const getEntityByUserAndFilm = createAsyncThunk(
+  'squadra/fetch_entity_user_film',
+  async ({ idUser, idFilm }: { idUser: string | number; idFilm: string | number }) => {
+    const requestUrl = `${apiUrl}/${idUser}/${idFilm}`;
+    return axios.get<ISquadra>(requestUrl);
+  },
+  { serializeError: serializeAxiosError }
+);
+
 export const createEntity = createAsyncThunk(
   'squadra/create_entity',
   async (entity: ISquadra, thunkAPI) => {
@@ -90,6 +99,10 @@ export const SquadraSlice = createEntitySlice({
         state.updateSuccess = true;
         state.entity = {};
       })
+      .addCase(getEntityByUserAndFilm.fulfilled, (state, action) => {
+        state.loading = false;
+        state.entity = action.payload.data;
+      })
       .addMatcher(isFulfilled(getEntities), (state, action) => {
         const { data, headers } = action.payload;
 
@@ -106,7 +119,7 @@ export const SquadraSlice = createEntitySlice({
         state.updateSuccess = true;
         state.entity = action.payload.data;
       })
-      .addMatcher(isPending(getEntities, getEntity), state => {
+      .addMatcher(isPending(getEntities, getEntity, getEntityByUserAndFilm), state => {
         state.errorMessage = null;
         state.updateSuccess = false;
         state.loading = true;

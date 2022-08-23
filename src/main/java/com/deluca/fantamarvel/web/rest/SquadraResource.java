@@ -193,6 +193,13 @@ public class SquadraResource {
         return ResponseUtil.wrapOrNotFound(squadra);
     }
 
+    @GetMapping("/squadras/{idUser}/{idFilm}")
+    public ResponseEntity<Squadra> getSquadraByIdUserAndFilm(@PathVariable("idUser") Long idUser, @PathVariable("idFilm") Long idFilm) {
+        log.debug("REST request to get Squadra by id user and film : {}", idUser, idFilm);
+        Optional<Squadra> squadra = squadraRepository.findSquadraByIdFilmAndUser(idUser, idFilm);
+        return ResponseUtil.wrapOrNotFound(squadra);
+    }
+
     /**
      * {@code DELETE  /squadras/:id} : delete the "id" squadra.
      *

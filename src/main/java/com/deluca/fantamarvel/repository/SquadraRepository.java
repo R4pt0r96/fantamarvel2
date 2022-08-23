@@ -41,4 +41,7 @@ public interface SquadraRepository extends SquadraRepositoryWithBagRelationships
         "select squadra from Squadra squadra left join fetch squadra.film left join fetch squadra.lega left join fetch squadra.userExtended where squadra.id =:id"
     )
     Optional<Squadra> findOneWithToOneRelationships(@Param("id") Long id);
+
+    @Query("select s from Squadra s where s.userExtended.id =:idUser and s.film.id=:idFilm")
+    Optional<Squadra> findSquadraByIdFilmAndUser(@Param("idUser") Long idUser, @Param("idFilm") Long idFilm);
 }

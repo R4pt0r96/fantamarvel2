@@ -3,7 +3,9 @@ package com.deluca.fantamarvel.service;
 import com.deluca.fantamarvel.config.Constants;
 import com.deluca.fantamarvel.domain.Authority;
 import com.deluca.fantamarvel.domain.User;
+import com.deluca.fantamarvel.domain.UserExtended;
 import com.deluca.fantamarvel.repository.AuthorityRepository;
+import com.deluca.fantamarvel.repository.UserExtendedRepository;
 import com.deluca.fantamarvel.repository.UserRepository;
 import com.deluca.fantamarvel.security.AuthoritiesConstants;
 import com.deluca.fantamarvel.security.SecurityUtils;
@@ -35,6 +37,8 @@ public class UserService {
 
     private final UserRepository userRepository;
 
+    private final UserExtendedRepository userExtendedRepository;
+
     private final PasswordEncoder passwordEncoder;
 
     private final AuthorityRepository authorityRepository;
@@ -45,12 +49,14 @@ public class UserService {
         UserRepository userRepository,
         PasswordEncoder passwordEncoder,
         AuthorityRepository authorityRepository,
-        CacheManager cacheManager
+        CacheManager cacheManager,
+        UserExtendedRepository userExtendedRepository
     ) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authorityRepository = authorityRepository;
         this.cacheManager = cacheManager;
+        this.userExtendedRepository = userExtendedRepository;
     }
 
     public Optional<User> activateRegistration(String key) {
@@ -131,6 +137,13 @@ public class UserService {
         newUser.setAuthorities(authorities);
         userRepository.save(newUser);
         this.clearUserCaches(newUser);
+        UserExtended userExtended = new UserExtended();
+        userExtended.setUsername(newUser.getLogin());
+        Optional<User> userCreato = userRepository.findOneByLogin(newUser.getLogin());
+        if (userCreato.isPresent()) {
+            userExtended.setUser(userCreato.get());
+            userExtendedRepository.save(userExtended);
+        }
         log.debug("Created Information for User: {}", newUser);
         return newUser;
     }
