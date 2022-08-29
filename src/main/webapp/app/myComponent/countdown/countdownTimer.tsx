@@ -5,6 +5,7 @@ import './countdownTimer.css';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { Alert, Button } from 'reactstrap';
 import { Link, useHistory } from 'react-router-dom';
+import { getSession } from 'app/shared/reducers/authentication';
 
 import { getEntities as getEntitiesUserExt } from 'app/entities/user-extended/user-extended.reducer';
 import {
@@ -33,9 +34,11 @@ const ShowCounter = ({ days, hours, minutes, seconds, film }) => {
   const history = useHistory();
 
   useEffect(() => {
-    dispatch(getEntitiesSquadra({}));
-    dispatch(getEntitiesUserExt({}));
-  }, []);
+    if (account.login) {
+      dispatch(getEntitiesSquadra({}));
+      dispatch(getEntitiesUserExt({}));
+    }
+  }, [account]);
 
   const isNew = () => {
     for (let i = 0; i < squadraList.length; i++) {
@@ -57,7 +60,8 @@ const ShowCounter = ({ days, hours, minutes, seconds, film }) => {
 
       dispatch(createEntitySquadra(entity));
     }
-    history.push('/createSquadra');
+
+    history.push('/createSquadra/' + film.id + '/' + userExt[0].id);
   };
 
   return (

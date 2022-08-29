@@ -41,7 +41,7 @@ const Routes = () => {
         <PrivateRoute path="/admin" component={Admin} hasAnyAuthorities={[AUTHORITIES.ADMIN]} />
         <PrivateRoute path="/account" component={Account} hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]} />
         <PrivateRoute
-          path="/createSquadra/:idfilm?"
+          path="/createSquadra/:idFilm?/:idUserExt?"
           exact
           component={SquadraPage}
           hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]}

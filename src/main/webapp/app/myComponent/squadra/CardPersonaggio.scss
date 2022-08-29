@@ -1,0 +1,24 @@
+.card_personaggio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 150px;
+  height: 200px;
+}
+
+.card_personaggio_img {
+  width: 90px;
+  min-height: 160px;
+  height: 160px;
+}
+
+.card_personaggio_btn {
+  position: relative;
+  top: -95px;
+}
+
+.grey {
+  -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+  filter: grayscale(100%) brightness(80%);
+}
