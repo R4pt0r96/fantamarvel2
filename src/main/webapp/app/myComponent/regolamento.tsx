@@ -8,7 +8,7 @@ const Regolamento = () => {
       <h2>REGOLAMENTO </h2>
       <p>Registrati e crea la tua squadra. </p>
       <p>
-        Avrai a disposizione <b>100 gettoni</b> e il tuo team dovrà avere <b>3 personaggi </b>marvel tra quelli a disposizione.
+        Avrai a disposizione <b>100 Shield Coins</b> e il tuo team dovrà avere <b>3 personaggi </b>Marvel tra quelli a disposizione.
       </p>
       <p>
         Ogni personaggio avrà un costo diverso in base al film. Ovviamente i personaggi principali avranno un costo elevato e quindi
@@ -23,9 +23,7 @@ const Regolamento = () => {
         personaggi che hai scelto eseguiranno tali azioni.
       </p>
       <p>
-        Potrai partecipare fino alla<b> scadenza del timer</b> che vedrai nella pagina di creazione squadra.
-        <br />
-        (Ricordati di salvare la tua squadra entro tale scadenza!)
+        Potrai partecipare e modificare la tua squadra fino alla<b> scadenza del timer</b> che vedi nella homepage.
       </p>
 
       <h6>Risultati</h6>

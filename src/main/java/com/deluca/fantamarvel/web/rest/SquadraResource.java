@@ -1,15 +1,22 @@
 package com.deluca.fantamarvel.web.rest;
 
+import com.deluca.fantamarvel.domain.Film;
 import com.deluca.fantamarvel.domain.Squadra;
+import com.deluca.fantamarvel.repository.FilmRepository;
 import com.deluca.fantamarvel.repository.SquadraRepository;
 import com.deluca.fantamarvel.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import org.hibernate.type.ZonedDateTimeType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -41,9 +48,11 @@ public class SquadraResource {
     private String applicationName;
 
     private final SquadraRepository squadraRepository;
+    private final FilmRepository filmRepository;
 
-    public SquadraResource(SquadraRepository squadraRepository) {
+    public SquadraResource(SquadraRepository squadraRepository, FilmRepository filmRepository) {
         this.squadraRepository = squadraRepository;
+        this.filmRepository = filmRepository;
     }
 
     /**
@@ -170,12 +179,25 @@ public class SquadraResource {
         @RequestParam(required = false, defaultValue = "true") boolean eagerload
     ) {
         log.debug("REST request to get a page of Squadras");
+
+        Film filmActive = filmRepository.findAll().stream().filter(film -> film.getIsActive()).collect(Collectors.toList()).get(0);
+        boolean isFilmScaduto = filmActive.getDataFineIscrizione().isBefore(ZonedDateTime.now());
+        if (isFilmScaduto) {
+            List<Squadra> listaSquadre = squadraRepository.findAll();
+            for (Squadra squadra : listaSquadre) {
+                if (squadra.getFilm().getId() == filmActive.getId()) {
+                    squadra.setIsSalvata(true);
+                }
+            }
+        }
+
         Page<Squadra> page;
         if (eagerload) {
             page = squadraRepository.findAllWithEagerRelationships(pageable);
         } else {
             page = squadraRepository.findAll(pageable);
         }
+
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

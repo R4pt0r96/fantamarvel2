@@ -1,11 +1,10 @@
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { getEntities as getEntitiesFilmPersonaggio } from 'app/entities/film-personaggio/film-personaggio.reducer';
-import { getEntities as getEntitiesUserExt } from 'app/entities/user-extended/user-extended.reducer';
-import { isEmpty } from 'lodash';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
-import { Button, Card, CardBody, CardGroup, CardImg, CardSubtitle, CardTitle, Col, ListGroup, ListGroupItem, Row } from 'reactstrap';
-import { getEntities as getEntitiesSquadra } from '../../entities/squadra/squadra.reducer';
+import { Alert, Button, Card, CardBody, CardGroup, CardImg, CardSubtitle, CardTitle, Col, Row } from 'reactstrap';
+import { getEntities as getEntitiesSquadra, updateEntity as updateSquadra } from '../../entities/squadra/squadra.reducer';
+import { getEntity as getEntityUsrExt } from '../../entities/user-extended/user-extended.reducer';
 import CardPersonaggio from './CardPersonaggio';
 
 import './SquadraPage.scss';
@@ -20,6 +19,18 @@ const SquadraPage = (props: RouteComponentProps<{ idFilm: any; idUserExt: any }>
   const listaFilmPersonaggiIsLoading = useAppSelector(state => state.filmPersonaggio.loading);
   const listaSquadreIsLoading = useAppSelector(state => state.squadra.loading);
   const listaSquadre = useAppSelector(state => state.squadra.entities);
+  const account = useAppSelector(state => state.authentication.account);
+  //const userExtended = useAppSelector(state => state.userExtended.entity);
+
+  useEffect(() => {
+    dispatch(getEntitiesFilmPersonaggio({}));
+    dispatch(getEntitiesSquadra({}));
+    // dispatch(getEntityUsrExt(props.match.params.idUserExt));
+  }, []);
+
+  if (account.id != props.match.params.idUserExt) {
+    return <Alert color="danger">PAGINA NON DISPONIBILE</Alert>;
+  }
 
   //filtra i personaggi per il film
   let listaFilmPersonaggiFiltratiPerFilm;
@@ -31,16 +42,11 @@ const SquadraPage = (props: RouteComponentProps<{ idFilm: any; idUserExt: any }>
   let squadraFiltrata;
   if (!listaSquadreIsLoading) {
     for (let element of listaSquadre) {
-      if (element.userExtended.id == props.match.params.idUserExt) {
+      if (element.userExtended.id == props.match.params.idUserExt && element.film.id == props.match.params.idFilm) {
         squadraFiltrata = { ...element };
       }
     }
   }
-
-  useEffect(() => {
-    dispatch(getEntitiesFilmPersonaggio({}));
-    dispatch(getEntitiesSquadra({}));
-  }, []);
 
   const findCostoFilmPersonaggio = idPersonaggio => {
     for (let pers of listaFilmPersonaggiFiltratiPerFilm) {
@@ -65,33 +71,36 @@ const SquadraPage = (props: RouteComponentProps<{ idFilm: any; idUserExt: any }>
       for (const pers of listaFilmPersonaggiFiltratiPerFilm) {
         let isPresente = false;
 
-        if (squadraFiltrata?.personaggios[2]) {
-          if (
-            pers.personaggio.id != squadraFiltrata?.personaggios[2].id &&
-            pers.personaggio.id != squadraFiltrata?.personaggios[1].id &&
-            pers.personaggio.id != squadraFiltrata?.personaggios[0].id
-          ) {
-            isPresente = true;
-          }
-        } else if (squadraFiltrata?.personaggios[1]) {
-          if (pers.personaggio.id != squadraFiltrata?.personaggios[1].id && pers.personaggio.id != squadraFiltrata?.personaggios[0].id) {
-            isPresente = true;
-          }
-        } else if (squadraFiltrata?.personaggios[0]) {
-          if (pers.personaggio.id != squadraFiltrata?.personaggios[0].id) {
+        for (let index = 0; index < squadraFiltrata?.personaggios.length; index++) {
+          const element = squadraFiltrata.personaggios[index];
+
+          if (pers.personaggio.id == element.id) {
             isPresente = true;
           }
         }
-        if (isPresente) {
+
+        if (!isPresente) {
           filmPersonaggioOrdinati.push(pers);
         }
-      }
-      if (isEmpty(filmPersonaggioOrdinati)) {
-        filmPersonaggioOrdinati = [...listaFilmPersonaggiFiltratiPerFilm];
       }
     }
 
     return filmPersonaggioOrdinati.sort(sortArrayByCosto);
+  };
+
+  const aggiornaSquadraInserendoPersonaggio = filmPersonaggio => {
+    squadraFiltrata.personaggios = Object.assign([], squadraFiltrata.personaggios);
+    if (squadraFiltrata.personaggios.length < 3) {
+      squadraFiltrata.gettoni -= filmPersonaggio.costo;
+      squadraFiltrata.personaggios.push(filmPersonaggio.personaggio);
+      dispatch(updateSquadra(squadraFiltrata));
+    }
+  };
+
+  const removePersonaggioDallaSquadra = personaggio => {
+    squadraFiltrata.personaggios = squadraFiltrata.personaggios.filter(pers => pers.id != personaggio.id);
+    squadraFiltrata.gettoni += findCostoFilmPersonaggio(personaggio.id);
+    dispatch(updateSquadra(squadraFiltrata));
   };
 
   return (
@@ -113,9 +122,11 @@ const SquadraPage = (props: RouteComponentProps<{ idFilm: any; idUserExt: any }>
                   <CardSubtitle className="mb-2 text-muted" tag="h6">
                     Coins: {findCostoFilmPersonaggio(squadraFiltrata?.personaggios[0].id)}
                   </CardSubtitle>
-                  <Button color="danger" outline>
-                    Rimuovi
-                  </Button>
+                  {!squadraFiltrata?.isSalvata ? (
+                    <Button color="danger" outline onClick={() => removePersonaggioDallaSquadra(squadraFiltrata.personaggios[0])}>
+                      Rimuovi
+                    </Button>
+                  ) : null}
                 </CardBody>
               </Card>
             ) : (
@@ -147,9 +158,11 @@ const SquadraPage = (props: RouteComponentProps<{ idFilm: any; idUserExt: any }>
                   <CardSubtitle className="mb-2 text-muted" tag="h6">
                     Coins: {findCostoFilmPersonaggio(squadraFiltrata?.personaggios[1].id)}
                   </CardSubtitle>
-                  <Button color="danger" outline>
-                    Rimuovi
-                  </Button>
+                  {!squadraFiltrata?.isSalvata ? (
+                    <Button color="danger" outline onClick={() => removePersonaggioDallaSquadra(squadraFiltrata?.personaggios[1])}>
+                      Rimuovi
+                    </Button>
+                  ) : null}
                 </CardBody>
               </Card>
             ) : (
@@ -181,9 +194,11 @@ const SquadraPage = (props: RouteComponentProps<{ idFilm: any; idUserExt: any }>
                   <CardSubtitle className="mb-2 text-muted" tag="h6">
                     Coins: {findCostoFilmPersonaggio(squadraFiltrata?.personaggios[2].id)}
                   </CardSubtitle>
-                  <Button color="danger" outline>
-                    Rimuovi
-                  </Button>
+                  {!squadraFiltrata?.isSalvata ? (
+                    <Button color="danger" outline onClick={() => removePersonaggioDallaSquadra(squadraFiltrata?.personaggios[2])}>
+                      Rimuovi
+                    </Button>
+                  ) : null}
                 </CardBody>
               </Card>
             ) : (
@@ -203,13 +218,33 @@ const SquadraPage = (props: RouteComponentProps<{ idFilm: any; idUserExt: any }>
             )}
           </CardGroup>
         </Col>
-        <Col md="4">info</Col>
+        <Col md="4">
+          <Alert className="coins_text">
+            <img src="content/images/shield_logo.png" className="logo_coins" />
+            &nbsp; {'COINS: ' + squadraFiltrata?.gettoni}
+          </Alert>
+          <Alert color="info" className="coins_text">
+            <img src="content/images/target.png" className="logo_coins" />
+            &nbsp; {'PUNTEGGIO: ' + squadraFiltrata?.punteggio}
+          </Alert>
+        </Col>
       </Row>
-      <div className="lista_personaggi">
-        {ordinaFilmPersonaggioInBaseCosto().map(pers => {
-          return <CardPersonaggio personaggio={pers} gettoniSquadra={squadraFiltrata.gettoni} key={pers.id} />;
-        })}
-      </div>
+      {!squadraFiltrata?.isSalvata ? (
+        <div className="lista_personaggi">
+          {ordinaFilmPersonaggioInBaseCosto().map(pers => {
+            return (
+              <CardPersonaggio
+                personaggio={pers}
+                gettoniSquadra={squadraFiltrata?.gettoni}
+                key={pers.id}
+                addPersonaggio={aggiornaSquadraInserendoPersonaggio}
+              />
+            );
+          })}
+        </div>
+      ) : (
+        <p>Squadra salvata</p>
+      )}
     </div>
   );
 };

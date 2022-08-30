@@ -109,7 +109,6 @@ export const PersonaggioBonusMalus = (props: RouteComponentProps<{ id: string }>
       }
     });
     values.preventDefault();
-    console.log(bonusMalusChecked);
     const entity = {
       ...personaggioEntity,
       bonusmaluses: mapIdList(x),
@@ -119,6 +118,7 @@ export const PersonaggioBonusMalus = (props: RouteComponentProps<{ id: string }>
       dispatch(createEntity(entity));
     } else {
       dispatch(updateEntity(entity));
+      //inserire calcolo punteggio
     }
   };
 

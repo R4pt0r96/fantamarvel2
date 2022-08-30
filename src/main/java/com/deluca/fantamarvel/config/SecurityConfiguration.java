@@ -98,6 +98,7 @@ public class SecurityConfiguration {
             .antMatchers(HttpMethod.GET,"/api/bonus-maluses").permitAll()
             .antMatchers(HttpMethod.GET,"/api/**").authenticated()
             .antMatchers(HttpMethod.POST,"/api/squadras").authenticated()
+            .antMatchers(HttpMethod.PUT,"/api/squadras/**").authenticated()
             .antMatchers("/api/**").hasAnyAuthority(AuthoritiesConstants.ADMIN)
             .antMatchers("/management/health").permitAll()
             .antMatchers("/management/health/**").permitAll()
