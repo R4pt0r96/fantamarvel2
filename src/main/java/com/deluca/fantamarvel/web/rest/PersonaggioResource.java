@@ -1,13 +1,19 @@
 package com.deluca.fantamarvel.web.rest;
 
+import com.deluca.fantamarvel.domain.BonusMalus;
 import com.deluca.fantamarvel.domain.Personaggio;
+import com.deluca.fantamarvel.domain.Squadra;
+import com.deluca.fantamarvel.repository.BonusMalusRepository;
 import com.deluca.fantamarvel.repository.PersonaggioRepository;
+import com.deluca.fantamarvel.repository.SquadraRepository;
 import com.deluca.fantamarvel.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
@@ -41,9 +47,17 @@ public class PersonaggioResource {
     private String applicationName;
 
     private final PersonaggioRepository personaggioRepository;
+    private final SquadraRepository squadraRepository;
+    private final BonusMalusRepository bonusMalusRepository;
 
-    public PersonaggioResource(PersonaggioRepository personaggioRepository) {
+    public PersonaggioResource(
+        PersonaggioRepository personaggioRepository,
+        SquadraRepository squadraRepository,
+        BonusMalusRepository bonusMalusRepository
+    ) {
         this.personaggioRepository = personaggioRepository;
+        this.squadraRepository = squadraRepository;
+        this.bonusMalusRepository = bonusMalusRepository;
     }
 
     /**
@@ -94,6 +108,25 @@ public class PersonaggioResource {
         }
 
         Personaggio result = personaggioRepository.save(personaggio);
+
+        //calcolo punti
+
+        List<Squadra> listaSquadre = squadraRepository.findSquadreOfFilmActive();
+        listaSquadre =
+            listaSquadre.stream().filter(squadra -> squadra.getPersonaggios().contains(personaggio)).collect(Collectors.toList());
+        for (Squadra squadra : listaSquadre) {
+            if (squadra.getIsSalvata()) {
+                squadra.setPunteggio(0);
+                List<Personaggio> personaggiSquadra = squadra.getPersonaggios().stream().collect(Collectors.toList());
+                for (Personaggio pers : personaggiSquadra) {
+                    List<BonusMalus> listaBonusMalus = pers.getBonusmaluses().stream().collect(Collectors.toList());
+                    for (BonusMalus bonusMalus : listaBonusMalus) {
+                        squadra.setPunteggio(squadra.getPunteggio() + bonusMalus.getPunti());
+                    }
+                }
+            }
+        }
+
         return ResponseEntity
             .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, personaggio.getId().toString()))

@@ -5,24 +5,9 @@ import './countdownTimer.css';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { Alert, Button } from 'reactstrap';
 import { Link, useHistory } from 'react-router-dom';
-import { getSession } from 'app/shared/reducers/authentication';
 
 import { getEntities as getEntitiesUserExt } from 'app/entities/user-extended/user-extended.reducer';
-import {
-  createEntity as createEntitySquadra,
-  getEntity as getEntitySquadra,
-  getEntities as getEntitiesSquadra,
-  reset,
-} from '../../entities/squadra/squadra.reducer';
-
-const ExpiredNotice = () => {
-  return (
-    <div className="expired-notice">
-      <span>Tempo Scaduto</span>
-      <p>Dovrai attendere il prossimo film per giocare</p>
-    </div>
-  );
-};
+import { createEntity as createEntitySquadra, getEntities as getEntitiesSquadra } from '../../entities/squadra/squadra.reducer';
 
 const ShowCounter = ({ days, hours, minutes, seconds, film }) => {
   const account = useAppSelector(state => state.authentication.account);
@@ -88,11 +73,52 @@ const ShowCounter = ({ days, hours, minutes, seconds, film }) => {
   );
 };
 
+const ExpiredNotice = ({ film }) => {
+  const account = useAppSelector(state => state.authentication.account);
+  const dispatch = useAppDispatch();
+  const squadraList = useAppSelector(state => state.squadra.entities);
+  const userExt = useAppSelector(state => state.userExtended.entities).filter(user => user.user.id == account.id);
+  const history = useHistory();
+
+  useEffect(() => {
+    if (account.login) {
+      dispatch(getEntitiesSquadra({}));
+      dispatch(getEntitiesUserExt({}));
+    }
+  }, [account]);
+
+  const isNew = () => {
+    for (let i = 0; i < squadraList.length; i++) {
+      const element = squadraList[i];
+      if (element?.userExtended?.id == userExt[0]?.id && element?.film?.id == film.id) {
+        return false;
+      }
+    }
+    return true;
+  };
+
+  const goToPageSquadra = () => {
+    history.push('/createSquadra/' + film.id + '/' + userExt[0].id);
+  };
+
+  return (
+    <div className="expired-notice">
+      <span>Tempo Scaduto</span>
+      <p>Dovrai attendere il prossimo film per giocare</p>
+      {isNew() ? null : (
+        <Button onClick={goToPageSquadra} color="success">
+          LA TUA SQUADRA
+        </Button>
+      )}
+    </div>
+  );
+};
+
 const CountdownTimer = ({ targetDate, film }) => {
   const [days, hours, minutes, seconds] = useCountdown(targetDate);
 
   if (days + hours + minutes + seconds <= 0) {
-    return <ExpiredNotice />;
+    return <ExpiredNotice film={film} />;
   } else {
     return <ShowCounter days={String(days)} hours={String(hours)} minutes={String(minutes)} seconds={String(seconds)} film={film} />;
   }

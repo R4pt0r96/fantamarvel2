@@ -25,3 +25,12 @@ export const Home = () => (
     </NavLink>
   </NavItem>
 );
+
+export const SquadraMenu = () => (
+  <NavItem>
+    <NavLink tag={Link} to="/" className="d-flex align-items-center">
+      <FontAwesomeIcon icon="home" />
+      <span>Squadra</span>
+    </NavLink>
+  </NavItem>
+);

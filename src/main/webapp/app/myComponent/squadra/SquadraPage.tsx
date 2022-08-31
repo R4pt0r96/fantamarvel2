@@ -120,7 +120,7 @@ const SquadraPage = (props: RouteComponentProps<{ idFilm: any; idUserExt: any }>
                 <CardBody>
                   <CardTitle tag="h5">{squadraFiltrata?.personaggios[0].nome}</CardTitle>
                   <CardSubtitle className="mb-2 text-muted" tag="h6">
-                    Coins: {findCostoFilmPersonaggio(squadraFiltrata?.personaggios[0].id)}
+                    Coins: {listaFilmPersonaggiIsLoading ? 0 : findCostoFilmPersonaggio(squadraFiltrata?.personaggios[0].id)}
                   </CardSubtitle>
                   {!squadraFiltrata?.isSalvata ? (
                     <Button color="danger" outline onClick={() => removePersonaggioDallaSquadra(squadraFiltrata.personaggios[0])}>
@@ -156,7 +156,7 @@ const SquadraPage = (props: RouteComponentProps<{ idFilm: any; idUserExt: any }>
                 <CardBody>
                   <CardTitle tag="h5">{squadraFiltrata?.personaggios[1].nome}</CardTitle>
                   <CardSubtitle className="mb-2 text-muted" tag="h6">
-                    Coins: {findCostoFilmPersonaggio(squadraFiltrata?.personaggios[1].id)}
+                    Coins: {listaFilmPersonaggiIsLoading ? 0 : findCostoFilmPersonaggio(squadraFiltrata?.personaggios[1].id)}
                   </CardSubtitle>
                   {!squadraFiltrata?.isSalvata ? (
                     <Button color="danger" outline onClick={() => removePersonaggioDallaSquadra(squadraFiltrata?.personaggios[1])}>
@@ -192,7 +192,7 @@ const SquadraPage = (props: RouteComponentProps<{ idFilm: any; idUserExt: any }>
                 <CardBody>
                   <CardTitle tag="h5">{squadraFiltrata?.personaggios[2].nome}</CardTitle>
                   <CardSubtitle className="mb-2 text-muted" tag="h6">
-                    Coins: {findCostoFilmPersonaggio(squadraFiltrata?.personaggios[2].id)}
+                    Coins: {listaFilmPersonaggiIsLoading ? 0 : findCostoFilmPersonaggio(squadraFiltrata?.personaggios[2].id)}
                   </CardSubtitle>
                   {!squadraFiltrata?.isSalvata ? (
                     <Button color="danger" outline onClick={() => removePersonaggioDallaSquadra(squadraFiltrata?.personaggios[2])}>
