@@ -8,11 +8,8 @@ import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateT
 import { mapIdList } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
-import { IBonusMalus } from 'app/shared/model/bonus-malus.model';
 import { getEntities as getBonusMaluses } from 'app/entities/bonus-malus/bonus-malus.reducer';
-import { ISquadra } from 'app/shared/model/squadra.model';
 import { getEntities as getSquadras } from 'app/entities/squadra/squadra.reducer';
-import { IPersonaggio } from 'app/shared/model/personaggio.model';
 import { getEntity, updateEntity, createEntity, reset } from './personaggio.reducer';
 import { getEntities as getFilms } from '../film/film.reducer';
 
@@ -28,7 +25,6 @@ export const PersonaggioBonusMalus = (props: RouteComponentProps<{ id: string }>
 
   const films = useAppSelector(state => state.film.entities);
   const bonusMaluses = useAppSelector(state => state.bonusMalus.entities);
-  const squadras = useAppSelector(state => state.squadra.entities);
   const personaggioEntity = useAppSelector(state => state.personaggio.entity);
   const loading = useAppSelector(state => state.personaggio.loading);
   const updating = useAppSelector(state => state.personaggio.updating);

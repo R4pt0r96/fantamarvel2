@@ -15,6 +15,7 @@ import ErrorBoundaryRoute from 'app/shared/error/error-boundary-route';
 import PageNotFound from 'app/shared/error/page-not-found';
 import { AUTHORITIES } from 'app/config/constants';
 import SquadraPage from './myComponent/squadra/SquadraPage';
+import ClassificaSquadre from './myComponent/classifica/ClassificaSquadre';
 
 const loading = <div>loading ...</div>;
 
@@ -46,7 +47,7 @@ const Routes = () => {
           component={SquadraPage}
           hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]}
         />
-
+        <PrivateRoute path="/classificaSquadre" component={ClassificaSquadre} hasAnyAuthorities={[AUTHORITIES.ADMIN, AUTHORITIES.USER]} />
         <ErrorBoundaryRoute path="/" exact component={Home} />
         <PrivateRoute path="/" component={EntitiesRoutes} hasAnyAuthorities={[AUTHORITIES.ADMIN]} />
 

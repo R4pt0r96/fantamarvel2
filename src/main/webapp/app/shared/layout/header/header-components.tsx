@@ -26,11 +26,11 @@ export const Home = () => (
   </NavItem>
 );
 
-export const SquadraMenu = () => (
+export const ClassificaSquadreNavLink = () => (
   <NavItem>
-    <NavLink tag={Link} to="/" className="d-flex align-items-center">
-      <FontAwesomeIcon icon="home" />
-      <span>Squadra</span>
+    <NavLink tag={Link} to="/classificaSquadre" className="d-flex align-items-center">
+      <FontAwesomeIcon icon="th-list" />
+      <span>Classifica</span>
     </NavLink>
   </NavItem>
 );

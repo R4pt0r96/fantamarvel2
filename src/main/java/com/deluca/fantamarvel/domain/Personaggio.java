@@ -48,12 +48,12 @@ public class Personaggio implements Serializable {
         joinColumns = @JoinColumn(name = "personaggio_id"),
         inverseJoinColumns = @JoinColumn(name = "bonusmalus_id")
     )
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    //@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "film", "personaggios" }, allowSetters = true)
     private Set<BonusMalus> bonusmaluses = new HashSet<>();
 
     @ManyToMany(mappedBy = "personaggios")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    //@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "film", "lega", "userExtended", "personaggios" }, allowSetters = true)
     private Set<Squadra> teams = new HashSet<>();
 

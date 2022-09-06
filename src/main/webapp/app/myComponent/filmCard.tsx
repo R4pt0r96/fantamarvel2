@@ -1,6 +1,4 @@
-import { useAppDispatch, useAppSelector } from 'app/config/store';
-import { getEntities } from 'app/entities/film/film.reducer';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Alert, Card } from 'reactstrap';
 import LocandinaFilm from './locandinaFilm/locandinaFilm';
 

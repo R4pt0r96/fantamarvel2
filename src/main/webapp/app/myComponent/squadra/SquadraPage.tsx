@@ -4,7 +4,6 @@ import React, { useEffect } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { Alert, Button, Card, CardBody, CardGroup, CardImg, CardSubtitle, CardTitle, Col, Row } from 'reactstrap';
 import { getEntities as getEntitiesSquadra, updateEntity as updateSquadra } from '../../entities/squadra/squadra.reducer';
-import { getEntity as getEntityUsrExt } from '../../entities/user-extended/user-extended.reducer';
 import CardPersonaggio from './CardPersonaggio';
 
 import './SquadraPage.scss';

@@ -52,7 +52,7 @@ public class Film implements Serializable {
         joinColumns = @JoinColumn(name = "film_id"),
         inverseJoinColumns = @JoinColumn(name = "user_extended_id")
     )
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    // @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "user", "films" }, allowSetters = true)
     private Set<UserExtended> userExtendeds = new HashSet<>();
 

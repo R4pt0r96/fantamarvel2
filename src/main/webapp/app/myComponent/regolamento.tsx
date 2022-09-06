@@ -35,7 +35,7 @@ const Regolamento = () => {
 
       <h5>Partecipa anche tu!</h5>
       <p>
-        Puoi inviare una email a <i>info@fantamarvel.com</i> e dare un consiglio su Bonus-Malus o personaggio da aggiungere.
+        Puoi inviare una email a <i>fantamarvel.info@gmail.com</i> e dare un consiglio su Bonus-Malus o personaggio da aggiungere.
       </p>
       <p>In questo modo possiamo divertirci partecipando tutti!!</p>
     </div>

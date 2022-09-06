@@ -161,11 +161,11 @@ public class BonusMalusResource {
     ) {
         log.debug("REST request to get a page of BonusMaluses");
         Page<BonusMalus> page;
-        if (eagerload) {
-            page = bonusMalusRepository.findAllWithEagerRelationships(pageable);
-        } else {
-            page = bonusMalusRepository.findAll(pageable);
-        }
+        // if (eagerload) {
+        //     page = bonusMalusRepository.findAllWithEagerRelationships(pageable);
+        // } else {
+        page = bonusMalusRepository.findAll(pageable);
+        //  }
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

@@ -38,8 +38,8 @@ public class BonusMalus implements Serializable {
     @JsonIgnoreProperties(value = { "userExtendeds" }, allowSetters = true)
     private Film film;
 
-    @ManyToMany(mappedBy = "bonusmaluses")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "bonusmaluses")
+    // @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "bonusmaluses", "teams" }, allowSetters = true)
     private Set<Personaggio> personaggios = new HashSet<>();
 
