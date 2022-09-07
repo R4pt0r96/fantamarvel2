@@ -8,6 +8,7 @@ import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
 import { getEntity } from './personaggio.reducer';
+import { width } from '@fortawesome/free-solid-svg-icons/faCogs';
 
 export const PersonaggioDetail = (props: RouteComponentProps<{ id: string }>) => {
   const dispatch = useAppDispatch();
@@ -46,6 +47,7 @@ export const PersonaggioDetail = (props: RouteComponentProps<{ id: string }>) =>
             <span id="urlImg">Url Img</span>
           </dt>
           <dd>{personaggioEntity.urlImg}</dd>
+          <img style={{ width: '90px', height: '160px', minHeight: '160px' }} src={personaggioEntity.urlImg} />
           <dt>Bonusmalus</dt>
           <dd>
             {personaggioEntity.bonusmaluses

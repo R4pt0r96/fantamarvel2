@@ -8,7 +8,7 @@
     <groupId>com.deluca.fantamarvel</groupId>
     <artifactId>fantamarvel-2</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
     <name>Fantamarvel 2</name>
     <description>Description for fantamarvel2</description>
 
@@ -106,6 +106,13 @@
     </dependencyManagement>
 
     <dependencies>
+
+    <!-- MariaDB JDBC -->
+<dependency>
+    <groupId>org.mariadb.jdbc</groupId>
+    <artifactId>mariadb-java-client</artifactId>
+    <version>3.0.7</version>
+</dependency>
         <dependency>
             <groupId>tech.jhipster</groupId>
             <artifactId>jhipster-framework</artifactId>

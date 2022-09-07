@@ -95,11 +95,26 @@ Navbar styles
     text-decoration: none;
   }
   .brand-icon {
-    height: 35px;
+    height: 45px;
     width: auto;
-    display: inline-block;
+    // display: inline-block;
+    box-sizing: border-box;
     img {
-      height: 45px;
+      height: 100%;
+      border: solid 1px white;
+      box-sizing: border-box;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .brand-logo {
+    padding: 0;
+    .brand-icon {
+      padding: 0;
+      img {
+        padding: 0;
+      }
     }
   }
 }

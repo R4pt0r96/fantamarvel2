@@ -6,8 +6,9 @@ import { toast } from 'react-toastify';
 import PasswordStrengthBar from 'app/shared/layout/password/password-strength-bar';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 import { handleRegister, reset } from './register.reducer';
+import { RouteComponentProps } from 'react-router-dom';
 
-export const RegisterPage = () => {
+export const RegisterPage = (props: RouteComponentProps<any>) => {
   const [password, setPassword] = useState('');
   const dispatch = useAppDispatch();
 
@@ -20,6 +21,7 @@ export const RegisterPage = () => {
 
   const handleValidSubmit = ({ username, email, firstPassword }) => {
     dispatch(handleRegister({ login: username, email, password: firstPassword, langKey: 'en' }));
+    props.history.push('/');
   };
 
   const updatePassword = event => setPassword(event.target.value);
