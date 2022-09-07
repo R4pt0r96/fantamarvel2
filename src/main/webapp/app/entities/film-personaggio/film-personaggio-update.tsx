@@ -16,12 +16,21 @@ import { IFilmPersonaggio } from 'app/shared/model/film-personaggio.model';
 import { getEntity, updateEntity, createEntity, reset } from './film-personaggio.reducer';
 
 export const FilmPersonaggioUpdate = (props: RouteComponentProps<{ id: string }>) => {
+  const sortArrayByNome = (a, b) => {
+    if (a.nome < b.nome) {
+      return -1;
+    } else if (a.nome > b.nome) {
+      return 1;
+    }
+    return 0;
+  };
+
   const dispatch = useAppDispatch();
 
   const [isNew] = useState(!props.match.params || !props.match.params.id);
 
   const films = useAppSelector(state => state.film.entities);
-  const personaggios = useAppSelector(state => state.personaggio.entities);
+  let personaggios = useAppSelector(state => state.personaggio.entities);
   const filmPersonaggioEntity = useAppSelector(state => state.filmPersonaggio.entity);
   const loading = useAppSelector(state => state.filmPersonaggio.loading);
   const updating = useAppSelector(state => state.filmPersonaggio.updating);
@@ -29,6 +38,12 @@ export const FilmPersonaggioUpdate = (props: RouteComponentProps<{ id: string }>
   const handleClose = () => {
     props.history.push('/film-personaggio');
   };
+
+  if (!loading) {
+    let arr = [...personaggios];
+    arr.sort(sortArrayByNome);
+    personaggios = [...arr];
+  }
 
   useEffect(() => {
     if (!isNew) {
