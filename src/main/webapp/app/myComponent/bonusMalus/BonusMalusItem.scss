@@ -30,4 +30,11 @@
 }
 
 .bonusmalus_descrizione {
+  text-align: left;
+}
+
+@media (max-width: 768px) {
+  .bonusmalus_descrizione {
+    text-align: center;
+  }
 }
