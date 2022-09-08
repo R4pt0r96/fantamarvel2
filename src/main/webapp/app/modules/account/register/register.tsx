@@ -102,7 +102,7 @@ export const RegisterPage = (props: RouteComponentProps<any>) => {
               data-cy="secondPassword"
             />
             <Button id="register-submit" color="primary" type="submit" data-cy="submit">
-              Registati
+              Registrati
             </Button>
           </ValidatedForm>
         </Col>

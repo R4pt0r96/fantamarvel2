@@ -59,7 +59,7 @@ const ShowCounter = ({ days, hours, minutes, seconds, film }) => {
       </div>
       {account?.login ? (
         <Button onClick={createSquadra} color="success">
-          CREA LA TUA SQUADRA
+          {isNew() ? 'CREA LA TUA SQUADRA' : 'GESTISCI SQUADRA'}
         </Button>
       ) : (
         <Alert color="warning">

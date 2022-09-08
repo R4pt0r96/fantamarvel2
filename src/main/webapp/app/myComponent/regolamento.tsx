@@ -28,10 +28,7 @@ const Regolamento = () => {
 
       <h6>Risultati</h6>
       <p>I risultati potranno essere pubblicati dal giorno successivo all'uscita del film nelle sale italiane, fino a 3-4 giorni dopo.</p>
-      <p>
-        Perciò rimani in attesa ed entra a vedere i risultati quando vuoi in quanto vedrai solo il punteggio finale senza spoiler su chi ha
-        fatto cosa!
-      </p>
+      <p>Perciò rimani in attesa ed entra a vedere i risultati nella sezione Classifica dove potrai confrontarti con tutte le squadre.</p>
 
       <h5>Partecipa anche tu!</h5>
       <p>

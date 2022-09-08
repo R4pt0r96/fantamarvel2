@@ -242,7 +242,7 @@ const SquadraPage = (props: RouteComponentProps<{ idFilm: any; idUserExt: any }>
           })}
         </div>
       ) : (
-        <p>Squadra salvata</p>
+        <Alert color="info">Tempo scaduto: squadra non modificabile</Alert>
       )}
     </div>
   );
