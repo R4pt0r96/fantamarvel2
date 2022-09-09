@@ -2,8 +2,18 @@ import React, { useEffect, useRef } from 'react';
 import { Alert } from 'reactstrap';
 import BonusMalusItem from './BonusMalusItem';
 
+const sortArrayByPunti = (a, b) => {
+  if (a.punti > b.punti) {
+    return 1;
+  } else if (a.punti < b.punti) {
+    return -1;
+  }
+  return 0;
+};
+
 const BonusMalusComponent = props => {
-  const filmActiveBonusMalus = props.bonusMalusList.filter(item => item?.film?.id === props.idFilm);
+  let filmActiveBonusMalus = props.bonusMalusList.filter(item => item?.film?.id === props.idFilm);
+  filmActiveBonusMalus = filmActiveBonusMalus.sort(sortArrayByPunti);
   const refBonusMalus = useRef(null);
 
   useEffect(() => {
