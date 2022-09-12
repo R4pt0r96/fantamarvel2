@@ -213,6 +213,11 @@ public class PersonaggioResource {
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
+    @GetMapping("/personaggios/all")
+    public List<Personaggio> getAllWithoutPage() {
+        return personaggioRepository.findAll();
+    }
+
     /**
      * {@code GET  /personaggios/:id} : get the "id" personaggio.
      *

@@ -4,16 +4,12 @@ import { Button, Row, Col, FormText } from 'reactstrap';
 import { isNumber, ValidatedField, ValidatedForm } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
-import { mapIdList } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
-import { IFilm } from 'app/shared/model/film.model';
 import { getEntities as getFilms } from 'app/entities/film/film.reducer';
-import { IPersonaggio } from 'app/shared/model/personaggio.model';
-import { getEntities as getPersonaggios } from 'app/entities/personaggio/personaggio.reducer';
-import { IFilmPersonaggio } from 'app/shared/model/film-personaggio.model';
+// import { getEntities as getPersonaggios, reset as resetPersonaggi } from 'app/entities/personaggio/personaggio.reducer';
 import { getEntity, updateEntity, createEntity, reset } from './film-personaggio.reducer';
+import axios from 'axios';
 
 export const FilmPersonaggioUpdate = (props: RouteComponentProps<{ id: string }>) => {
   const sortArrayByNome = (a, b) => {
@@ -30,7 +26,7 @@ export const FilmPersonaggioUpdate = (props: RouteComponentProps<{ id: string }>
   const [isNew] = useState(!props.match.params || !props.match.params.id);
 
   const films = useAppSelector(state => state.film.entities);
-  let personaggios = useAppSelector(state => state.personaggio.entities);
+  // const personaggios = useAppSelector(state => state.personaggio.entities);
   const filmPersonaggioEntity = useAppSelector(state => state.filmPersonaggio.entity);
   const loading = useAppSelector(state => state.filmPersonaggio.loading);
   const updating = useAppSelector(state => state.filmPersonaggio.updating);
@@ -38,11 +34,13 @@ export const FilmPersonaggioUpdate = (props: RouteComponentProps<{ id: string }>
   const handleClose = () => {
     props.history.push('/film-personaggio');
   };
+  const [personaggios, setPersonaggios] = useState([]);
 
+  let personaggiOrdinati = [];
   if (!loading) {
-    let arr = [...personaggios];
+    const arr = [...personaggios];
     arr.sort(sortArrayByNome);
-    personaggios = [...arr];
+    personaggiOrdinati = [...arr];
   }
 
   useEffect(() => {
@@ -51,13 +49,25 @@ export const FilmPersonaggioUpdate = (props: RouteComponentProps<{ id: string }>
     }
 
     dispatch(getFilms({}));
-    dispatch(getPersonaggios({}));
+    // dispatch(getPersonaggios({}));
+    axios.get('/api/personaggios/all').then(res => {
+      setPersonaggios(res.data);
+    });
+
+    return () => {
+      dispatch(reset());
+      // dispatch(resetPersonaggi());
+    };
   }, []);
 
   useEffect(() => {
     if (updateSuccess) {
       handleClose();
     }
+    return () => {
+      dispatch(reset());
+      // dispatch(resetPersonaggi());
+    };
   }, [updateSuccess]);
 
   const saveEntity = values => {
@@ -126,8 +136,8 @@ export const FilmPersonaggioUpdate = (props: RouteComponentProps<{ id: string }>
               </ValidatedField>
               <ValidatedField id="film-personaggio-personaggio" name="personaggio" data-cy="personaggio" label="Personaggio" type="select">
                 <option value="" key="0" />
-                {personaggios
-                  ? personaggios.map(otherEntity => (
+                {personaggiOrdinati
+                  ? personaggiOrdinati.map(otherEntity => (
                       <option value={otherEntity.id} key={otherEntity.id}>
                         {otherEntity.nome}
                       </option>

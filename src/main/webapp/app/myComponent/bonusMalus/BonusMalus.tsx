@@ -4,9 +4,9 @@ import BonusMalusItem from './BonusMalusItem';
 
 const sortArrayByPunti = (a, b) => {
   if (a.punti > b.punti) {
-    return 1;
-  } else if (a.punti < b.punti) {
     return -1;
+  } else if (a.punti < b.punti) {
+    return 1;
   }
   return 0;
 };
